@@ -15,13 +15,12 @@ const AddCategoryComponent = ( { setCategories, categories } ) => {
 
 		const found = categories.find( ( category) => category.toLowerCase() === inputValue.toLowerCase() );
 
-		if( found )
-			return;
+		if( found ) return;
 
 		if( inputValue.trim().length > 2 ){
 			//TODO: Hacer apunte sobre funciones que pasan como prop al componente
 			// Y como la funcion del use state tiene por defecto su valor anterior en un callback
-			setCategories( c => [ ...c, inputValue, ] );	
+			setCategories( c => [ inputValue, ...c ] );	
 			setInputValue('');
 		} //end if
 

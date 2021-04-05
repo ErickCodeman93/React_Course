@@ -185,6 +185,57 @@ En caso de que no se pudiera de la forma habitual
 setCounter( c + 1 );
 ````
 
+## useEffect
+
+Este hook sive para ejecutar cierto código de forma condicional, en este caso se muestra que ejecutara la función getGift la primera vez que se renderiza el componente que lo contiene y no una segunda vez que se renderize. 
+
+````
+useEffect( () => {		
+	getGift();
+}, [] ); 	
+````
+
+Cabe mencionar que useEffect se pone en marcha cuando el componente padre se actualiza el estado y no cuando el componente que contiene useEffect actualiza su estado.
+
+__Nota:__ si una función que esta dentro del useEffect tiene parametros, estas deben ser importadas en el arreglo del segundo parametro del useEffect
+
+ ````
+useEffect( () => {		
+	getGift( category ).then( r => setCount( r ) );
+}, [ category ] ); 	
+````
+
+## Custom Hook
+
+Es una forma de extraer lógica de algún componente o lógica que quiero reutilizar y extaerla de tal manera que sea sencillo extraerla.
+
+__Nota:__ Es una función cualquiera.
+
+````
+export const useGiftFetch = ( category ) => {
+
+	const [state, setState] = useState({
+		data:[],
+		loading:true,
+	});
+
+	useEffect( () => {	
+		getGift( category )
+			.then( ( response ) => { 				
+				setTimeout( () => {
+					
+					setState( {
+						data: response,
+						loading: false,
+					} );
+				}, 3000 );
+			});
+	}, [ category ] ); 
+
+	return state;
+}
+````
+Una cosa interesantes de los custom hook son que dentro de ellos se pueden usar sin problema otros hooks( como useState o useEffect ) y de alguna manera heredan el estado del componente actual y este se renderiza cada que cambia el estado dentro del custom hook.
 
 
 # __::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::__
